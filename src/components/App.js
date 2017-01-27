@@ -1,8 +1,9 @@
 import React from 'react';
+import LoginForm from './LoginForm';
 
 class App extends React.Component {
     render() {
-        return React.createElement('div', {className: 'test'});
+        return React.createElement(LoginForm);
     }
 }
 
