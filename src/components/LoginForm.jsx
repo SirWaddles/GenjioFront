@@ -1,7 +1,7 @@
 import React from 'react';
 import StoreContainer from './Container';
 import LoginStore from '../stores/login';
-import { Grid, Form, Input, Button } from 'semantic-ui-react';
+import { Grid, Form, Input, Button, Header, Image } from 'semantic-ui-react';
 import TestLoginInformation from '../api/login';
 import UpdateImageListings from '../api/imagelist';
 
@@ -56,8 +56,12 @@ class LoginForm extends React.Component {
 class LoginContainer extends React.Component {
     render() {
         return (
-            <Grid verticalAlign='middle' columns={4} centered>
+            <Grid verticalAlign='middle' columns={2} centered className='fullHeight'>
                 <Grid.Column>
+                    <Header as='h2' textAlign='center'>
+                        <Image src='https://genj.io/genji.png' />
+                        {' i.Genjio'}
+                    </Header>
                     <StoreContainer store={LoginStore}>
                         <LoginForm />
                     </StoreContainer>

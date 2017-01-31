@@ -11,6 +11,7 @@ function getExtension(name) {
 const ImageExtensions = ['png', 'jpeg', 'jpg', 'bmp', 'gif'];
 const VideoExtensions = ['mp4', 'flv', 'avi'];
 const TextExtensions = ['txt', 'html', 'xml', 'json'];
+const IMAGES_PAGE_LENGTH = 16;
 
 class ImageIcon extends React.Component {
     render() {
@@ -68,11 +69,27 @@ class ImageIcon extends React.Component {
 
 class ImageView extends React.Component {
     render() {
+        var images = this.props.images.slice(this.props.page * IMAGES_PAGE_LENGTH, (this.props.page + 1) * IMAGES_PAGE_LENGTH);
+        var pages = Math.ceil(this.props.images.length / IMAGES_PAGE_LENGTH);
         return (
-            <Card.Group itemsPerRow={6}>
-                {this.props.images.map((ele) => (<ImageIcon image={ele} />))}
-            </Card.Group>
+            <div>
+                <Card.Group itemsPerRow={4}>
+                    {images.map((ele) => (<ImageIcon image={ele} />))}
+                </Card.Group>
+                <div>
+                    {this.props.page > 0 && <Button content='Back' icon='left arrow' labelPosition='left' onClick={this.handleLeft.bind(this)} />}
+                    {this.props.page < (pages - 1) && <Button content='Next' icon='right arrow' labelPosition='right' onClick={this.handleRight.bind(this)} />}
+                </div>
+            </div>
         );
+    }
+
+    handleLeft(e) {
+        ImageStore.updateState({page: this.props.page - 1});
+    }
+
+    handleRight(e) {
+        ImageStore.updateState({page: this.props.page + 1});
     }
 }
 
