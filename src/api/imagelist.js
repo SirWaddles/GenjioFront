@@ -2,7 +2,7 @@ import LoginStore from '../stores/login';
 import ImageStore from '../stores/imagelist';
 
 function RetrieveListings(response) {
-    console.log(response.body);
+    return ImageStore.updateState({images: response});
 }
 
 function UpdateImageListings() {
@@ -14,7 +14,7 @@ function UpdateImageListings() {
             'Genjio-API-Username': loginObj.username,
         },
     };
-    fetch("https://i.genj.io/api/list", options).then(RetrieveListings).catch(function(error) {
+    fetch("https://i.genj.io/api/list", options).then((response) => response.json()).then(RetrieveListings).catch(function(error) {
         console.log(error);
     });
 }
