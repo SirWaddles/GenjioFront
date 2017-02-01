@@ -32,7 +32,11 @@ function TestLoginInformation() {
 function ChangePassword(password) {
     var options = {
         method: 'POST',
-        headers: GetLoginHeaders(),
+        headers: Object.assign(GetLoginHeaders(), {
+            'Accept': 'application/json',
+            'Content-Type': 'application/json',
+        }),
+        body: JSON.stringify({newPassword: password}),
     };
 
     fetch("https://i.genj.io/api/password", options).then(response => response.json()).then(function(data) {
@@ -43,5 +47,7 @@ function ChangePassword(password) {
         console.log(error);
     });
 }
+
+export { ChangePassword };
 
 export default TestLoginInformation;
