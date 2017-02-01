@@ -1,6 +1,7 @@
 import React from 'react';
 import StoreContainer from './Container';
 import ImageStore from '../stores/imagelist';
+import LoginStore from '../stores/login';
 import { UploadFile, DeleteImage } from '../api/imagelist';
 import { Card, Image, Embed, Button, Header, Segment, Divider, Menu, Dimmer, Icon, Progress, Table } from 'semantic-ui-react';
 
@@ -97,7 +98,7 @@ class ImageView extends React.Component {
 
         if (this.props.view == 'cards') {
             displayView = (
-                <Card.Group itemsPerRow={4}>
+                <Card.Group itemsPerRow={4} doubling>
                     {images.map((ele) => (<ImageIcon image={ele} />))}
                 </Card.Group>
             );
@@ -169,6 +170,7 @@ class ImageList extends React.Component {
                 </Header>
                 <Menu horizontal>
                     <Menu.Item name='Upload' icon='upload' onClick={this.handleUpload.bind(this)} />
+                    <Menu.Item name='Change Password' icon='unlock alternate' onClick={this.handleChangePassword.bind(this)} />
                     <Menu.Menu position='right'>
                         <Menu.Item icon='list layout' onClick={() => ImageStore.updateState({view: 'table'})} />
                         <Menu.Item icon='block layout' onClick={() => ImageStore.updateState({view: 'cards'})} />
@@ -187,6 +189,10 @@ class ImageList extends React.Component {
         input.type = 'file';
         input.addEventListener('change', this.handleFileSelect.bind(this), false);
         input.click();
+    }
+
+    handleChangePassword(e) {
+        LoginStore.updateState({passwordModal: true});
     }
 
     handleFileSelect(e) {

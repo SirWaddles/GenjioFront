@@ -6,6 +6,7 @@ loginStore.updateState({
     password: '',
     loading: false,
     login: false,
+    passwordModal: false,
 });
 
 export default loginStore;

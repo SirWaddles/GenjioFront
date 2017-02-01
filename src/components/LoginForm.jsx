@@ -3,7 +3,6 @@ import StoreContainer from './Container';
 import LoginStore from '../stores/login';
 import { Grid, Form, Input, Button, Header, Image } from 'semantic-ui-react';
 import TestLoginInformation from '../api/login';
-import UpdateImageListings from '../api/imagelist';
 
 class LoginForm extends React.Component {
     constructor(props) {
@@ -42,14 +41,7 @@ class LoginForm extends React.Component {
     handleSubmit(e) {
         e.preventDefault();
         LoginStore.updateState({loading: true});
-        TestLoginInformation((response) => {
-            if (response.status == 200) {
-                LoginStore.updateState({loading: false, login: true});
-                UpdateImageListings();
-            } else {
-                LoginStore.updateState({loading: false, login: false});
-            }
-        });
+        TestLoginInformation();
     }
 }
 

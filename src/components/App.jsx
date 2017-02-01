@@ -4,11 +4,17 @@ import ImageList from './ImageList';
 import LoginStore from '../stores/login';
 import StoreContainer from './Container';
 import { Container } from 'semantic-ui-react';
+import PasswordModal from './PasswordModal';
 
 class AppView extends React.Component {
     render() {
         if (this.props.login) {
-            return (<ImageList />);
+            return (
+                <div>
+                    <ImageList />
+                    {React.createElement(PasswordModal, this.props)}
+                </div>
+            );
         } else {
             return (<LoginForm />);
         }

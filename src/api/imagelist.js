@@ -1,5 +1,6 @@
 import LoginStore from '../stores/login';
 import ImageStore from '../stores/imagelist';
+import { GetLoginHeaders } from './login';
 
 function GetQuickDate() {
     var today = new Date();
@@ -17,14 +18,6 @@ function GetQuickDate() {
 
     today = yyyy+'-'+mm+'-'+dd;
     return today;
-}
-
-function GetLoginHeaders() {
-    var loginObj = LoginStore.getState();
-    return {
-        'Genjio-API-Key': loginObj.password,
-        'Genjio-API-Username': loginObj.username,
-    };
 }
 
 function RetrieveListings(response) {
