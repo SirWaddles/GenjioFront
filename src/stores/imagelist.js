@@ -5,6 +5,8 @@ imageStore.updateState({
     loading: false,
     images: [],
     page: 0,
+    uploadProgress: 0,
+    uploading: false,
 });
 
 export default imageStore;

@@ -1,7 +1,8 @@
 import React from 'react';
 import StoreContainer from './Container';
 import ImageStore from '../stores/imagelist';
-import { Card, Image, Embed, Button } from 'semantic-ui-react';
+import { UploadFile, DeleteImage } from '../api/imagelist';
+import { Card, Image, Embed, Button, Header, Segment, Divider, Menu, Dimmer, Icon, Progress } from 'semantic-ui-react';
 
 function getExtension(name) {
     var re = /(?:\.([^.]+))?$/;
@@ -60,10 +61,14 @@ class ImageIcon extends React.Component {
                     <p>{this.props.image.dateUploaded}</p>
                 </Card.Content>
                 <Card.Content extra>
-                    <Button basic color='red'>Delete</Button>
+                    <Button basic color='red' onClick={this.handleDeleteFile.bind(this)}>Delete</Button>
                 </Card.Content>
             </Card>
         )
+    }
+
+    handleDeleteFile(e) {
+        DeleteImage(this.props.image);
     }
 }
 
@@ -73,13 +78,16 @@ class ImageView extends React.Component {
         var pages = Math.ceil(this.props.images.length / IMAGES_PAGE_LENGTH);
         return (
             <div>
-                <Card.Group itemsPerRow={4}>
-                    {images.map((ele) => (<ImageIcon image={ele} />))}
-                </Card.Group>
-                <div>
+                <Segment padded>
+                    <Card.Group itemsPerRow={4}>
+                        {images.map((ele) => (<ImageIcon image={ele} />))}
+                    </Card.Group>
+                </Segment>
+                <Segment padded>
                     {this.props.page > 0 && <Button content='Back' icon='left arrow' labelPosition='left' onClick={this.handleLeft.bind(this)} />}
                     {this.props.page < (pages - 1) && <Button content='Next' icon='right arrow' labelPosition='right' onClick={this.handleRight.bind(this)} />}
-                </div>
+                </Segment>
+                {React.createElement(UploadProgressDisplay, this.props)}
             </div>
         );
     }
@@ -93,13 +101,49 @@ class ImageView extends React.Component {
     }
 }
 
+class UploadProgressDisplay extends React.Component {
+    render() {
+        if (!this.props.uploading) return <div />;
+
+        return (
+            <Dimmer active={true} page>
+                <Header as='h2' icon inverted>
+                    <Icon name='upload' />
+                    <Progress percent={this.uploadProgress * 100} indicating />
+                </Header>
+            </Dimmer>
+        );
+    }
+}
+
 class ImageList extends React.Component {
     render() {
         return (
-            <StoreContainer store={ImageStore}>
-                <ImageView />
-            </StoreContainer>
+            <div>
+                <Header as='h2' textAlign='center'>
+                    <Image src='https://genj.io/genji.png' />
+                    {' i.Genjio'}
+                </Header>
+                <Menu horizontal>
+                    <Menu.Item name='Upload' icon='upload' onClick={this.handleUpload.bind(this)} />
+                </Menu>
+                <Divider horizontal />
+                <StoreContainer store={ImageStore}>
+                    <ImageView />
+                </StoreContainer>
+            </div>
         );
+    }
+
+    handleUpload(e) {
+        var input = document.createElement('input');
+        input.type = 'file';
+        input.addEventListener('change', this.handleFileSelect.bind(this), false);
+        input.click();
+    }
+
+    handleFileSelect(e) {
+        UploadFile(e.target.files[0]);
     }
 }
 
