@@ -7,6 +7,7 @@ imageStore.updateState({
     page: 0,
     uploadProgress: 0,
     uploading: false,
+    view: 'cards',
 });
 
 export default imageStore;

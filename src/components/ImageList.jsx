@@ -2,7 +2,7 @@ import React from 'react';
 import StoreContainer from './Container';
 import ImageStore from '../stores/imagelist';
 import { UploadFile, DeleteImage } from '../api/imagelist';
-import { Card, Image, Embed, Button, Header, Segment, Divider, Menu, Dimmer, Icon, Progress } from 'semantic-ui-react';
+import { Card, Image, Embed, Button, Header, Segment, Divider, Menu, Dimmer, Icon, Progress, Table } from 'semantic-ui-react';
 
 function getExtension(name) {
     var re = /(?:\.([^.]+))?$/;
@@ -72,16 +72,59 @@ class ImageIcon extends React.Component {
     }
 }
 
+class ImageTableRow extends React.Component {
+    render() {
+        var imageSource = "https://i.genj.io/i/" + this.props.image.name;
+        return (
+            <Table.Row>
+                <Table.Cell><a href={imageSource}>{this.props.image.name}</a></Table.Cell>
+                <Table.Cell>{this.props.image.dateUploaded}</Table.Cell>
+                <Table.Cell><Button basic color='red' onClick={this.handleDeleteFile.bind(this)}>Delete</Button></Table.Cell>
+            </Table.Row>
+        );
+    }
+
+    handleDeleteFile(e) {
+        DeleteImage(this.props.image);
+    }
+}
+
 class ImageView extends React.Component {
     render() {
         var images = this.props.images.slice(this.props.page * IMAGES_PAGE_LENGTH, (this.props.page + 1) * IMAGES_PAGE_LENGTH);
         var pages = Math.ceil(this.props.images.length / IMAGES_PAGE_LENGTH);
+        var displayView = false;
+
+        if (this.props.view == 'cards') {
+            displayView = (
+                <Card.Group itemsPerRow={4}>
+                    {images.map((ele) => (<ImageIcon image={ele} />))}
+                </Card.Group>
+            );
+        }
+
+        if (this.props.view == 'table') {
+            displayView = (
+                <Table celled>
+                    <Table.Header>
+                        <Table.Row>
+                            <Table.HeaderCell>Name</Table.HeaderCell>
+                            <Table.HeaderCell>Date</Table.HeaderCell>
+                            <Table.HeaderCell></Table.HeaderCell>
+                        </Table.Row>
+                    </Table.Header>
+
+                    <Table.Body>
+                        {images.map(ele => (<ImageTableRow image={ele} />))}
+                    </Table.Body>
+                </Table>
+            );
+        }
+
         return (
             <div>
                 <Segment padded>
-                    <Card.Group itemsPerRow={4}>
-                        {images.map((ele) => (<ImageIcon image={ele} />))}
-                    </Card.Group>
+                    {displayView}
                 </Segment>
                 <Segment padded>
                     {this.props.page > 0 && <Button content='Back' icon='left arrow' labelPosition='left' onClick={this.handleLeft.bind(this)} />}
@@ -126,6 +169,10 @@ class ImageList extends React.Component {
                 </Header>
                 <Menu horizontal>
                     <Menu.Item name='Upload' icon='upload' onClick={this.handleUpload.bind(this)} />
+                    <Menu.Menu position='right'>
+                        <Menu.Item icon='list layout' onClick={() => ImageStore.updateState({view: 'table'})} />
+                        <Menu.Item icon='block layout' onClick={() => ImageStore.updateState({view: 'cards'})} />
+                    </Menu.Menu>
                 </Menu>
                 <Divider horizontal />
                 <StoreContainer store={ImageStore}>
