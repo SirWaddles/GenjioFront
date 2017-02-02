@@ -29,7 +29,7 @@ function UpdateImageListings() {
         method: 'GET',
         headers: GetLoginHeaders(),
     };
-    fetch("https://i.genj.io/api/list", options).then((response) => response.json()).then(RetrieveListings).catch(function(error) {
+    fetch("/api/list", options).then((response) => response.json()).then(RetrieveListings).catch(function(error) {
         console.log(error);
     });
 }
@@ -43,7 +43,7 @@ function DeleteImage(image) {
         }),
         body: JSON.stringify({id: image.id}),
     };
-    fetch("https://i.genj.io/api/delete", options).then((response) => response.json()).then(function(data) {
+    fetch("/api/delete", options).then((response) => response.json()).then(function(data) {
         if (data.success == true) {
             ImageStore.updateState({
                 images: ImageStore.getState().images.filter((val) => val.id != image.id)
@@ -61,7 +61,7 @@ function UploadFile(file) {
     data.append('form[uploadFile][file]', file);
     ImageStore.updateState({uploading: true});
     var uploadRequest = new XMLHttpRequest();
-    uploadRequest.open('POST', "https://i.genj.io/upload", true);
+    uploadRequest.open('POST', "/upload", true);
     var loginObj = LoginStore.getState();
     uploadRequest.setRequestHeader('Genjio-API-Key', loginObj.password);
     uploadRequest.setRequestHeader('Genjio-API-Username', loginObj.username);
