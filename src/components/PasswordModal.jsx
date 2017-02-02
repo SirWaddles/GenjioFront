@@ -7,14 +7,14 @@ class PasswordModal extends React.Component {
     render() {
         if (!this.props.passwordModal) return <div />;
         return (
-            <Modal open={true} basic>
+            <Modal onClose={this.handleClose.bind(this)} open={true} basic>
                 <Modal.Header>Change your Password</Modal.Header>
                 <Modal.Content>
                     <p>Enter your new password</p>
                     <Input icon='lock' type='password' value={this.props.newPassword} onChange={e => LoginStore.updateState({newPassword: e.target.value})} fluid />
                 </Modal.Content>
                 <Modal.Actions>
-                    <Button positive icon='checkmark' labelPosition='right' content='Submit' onClick={this.handleClose.bind(this)} />
+                    <Button positive icon='checkmark' labelPosition='right' content='Submit' onClick={this.handleChangePassword.bind(this)} />
                 </Modal.Actions>
             </Modal>
         );
@@ -22,10 +22,11 @@ class PasswordModal extends React.Component {
 
     handleChangePassword(e) {
         ChangePassword(this.props.newPassword);
+        this.handleClose(e);
     }
 
     handleClose(e) {
-        LoginStore.updateState({passwordModal: false});
+        LoginStore.updateState({passwordModal: false, newPassword: ''});
     }
 }
 
