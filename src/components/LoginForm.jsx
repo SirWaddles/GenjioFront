@@ -45,15 +45,44 @@ class LoginForm extends React.Component {
     }
 }
 
+class LoginHeader extends React.Component {
+    render() {
+        const pharah1Style = {
+            color: "#fcc000",
+        };
+        const pharah2Style = {
+            color: "#1e67c5",
+        };
+        const dotStyle = {
+            color: "#2c2e34",
+        }
+        var imgUrl = "https://genj.io/genji.png";
+        var hText = "i.Genjio";
+        if (window.location.hostname == 'pharah.airforce') {
+            imgUrl = "https://pharah.airforce/pharah.svg";
+            hText = (
+                <span>
+                    <span style={pharah2Style}> Pharah</span>
+                    <span style={dotStyle}>.</span>
+                    <span style={pharah1Style}>Airforce</span>
+                </span>
+            );
+        }
+        return (
+            <Header as='h2' textAlign='center'>
+                <Image width='100' height='100' src={imgUrl} />
+                {hText}
+            </Header>
+        );
+    }
+}
+
 class LoginContainer extends React.Component {
     render() {
         return (
             <Grid verticalAlign='middle' columns={2} centered className='fullHeight'>
                 <Grid.Column>
-                    <Header as='h2' textAlign='center'>
-                        <Image src='https://genj.io/genji.png' />
-                        {' i.Genjio'}
-                    </Header>
+                    <LoginHeader />
                     <StoreContainer store={LoginStore}>
                         <LoginForm />
                     </StoreContainer>

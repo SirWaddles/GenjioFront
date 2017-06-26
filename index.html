@@ -3,7 +3,7 @@
 <head>
 <title>Front</title>
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/semantic-ui/2.2.2/semantic.min.css"></link>
-<script type="text/ecmascript" src="njs/bundle.js"></script>
+
 <style type="text/css">
 #main {
     position: absolute;
@@ -16,9 +16,21 @@
 #main > .grid {
     height: 100%;
 }
+
+.videoplayer {
+    width: 100%;
+}
+
+.fullHeight {
+    height: 100%;
+}
 </style>
 </head>
 <body>
     <div id="main"></div>
+	<script type="text/javascript">
+		var gbl_endpoint = window.location.origin;
+	</script>
+	<script type="text/ecmascript" src="bundle.js"></script>
 </body>
 </html>

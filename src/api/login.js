@@ -16,7 +16,7 @@ function TestLoginInformation() {
         method: 'GET',
         headers: GetLoginHeaders(),
     };
-    fetch("/login", options).then(response => response.json()).then(function(data) {
+    fetch(gbl_endpoint + "/login", options).then(response => response.json()).then(function(data) {
         if (data.success == true) {
             LoginStore.updateState({loading: false, login: true, username: data.username});
             UpdateImageListings();
@@ -39,7 +39,7 @@ function ChangePassword(password) {
         body: JSON.stringify({newPassword: password}),
     };
 
-    fetch("/api/password", options).then(response => response.json()).then(function(data) {
+    fetch(gbl_endpoint + "/api/password", options).then(response => response.json()).then(function(data) {
         if (data.success == true) {
             LoginStore.updateState({'password': password});
         }

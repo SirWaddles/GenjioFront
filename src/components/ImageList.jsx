@@ -19,7 +19,7 @@ class ImageIcon extends React.Component {
     render() {
         var extension = getExtension(this.props.image.name);
         var displayElement = false;
-        var imageSource = "/i/" + this.props.image.name;
+        var imageSource = gbl_endpoint + "/i/" + this.props.image.name;
         if (ImageExtensions.indexOf(extension) != -1) {
             displayElement = (
                 <Card.Content>
@@ -75,7 +75,7 @@ class ImageIcon extends React.Component {
 
 class ImageTableRow extends React.Component {
     render() {
-        var imageSource = "/i/" + this.props.image.name;
+        var imageSource = gbl_endpoint + "/i/" + this.props.image.name;
         return (
             <Table.Row>
                 <Table.Cell><a href={imageSource}>{this.props.image.name}</a></Table.Cell>
