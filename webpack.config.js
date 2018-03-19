@@ -1,10 +1,11 @@
 const webpack = require('webpack');
 const BabiliPlugin = require("babili-webpack-plugin");
+const path = require('path');
 
 module.exports = {
     entry: './src/entry.js',
     output: {
-        path: 'html/njs/',
+        path: path.resolve(__dirname, 'html/njs/'),
         filename: 'bundle.js',
     },
     resolve: {
