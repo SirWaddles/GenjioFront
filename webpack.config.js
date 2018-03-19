@@ -1,8 +1,8 @@
 const webpack = require('webpack');
-const BabiliPlugin = require("babili-webpack-plugin");
 const path = require('path');
 
 module.exports = {
+    mode: 'development',
     entry: './src/entry.js',
     output: {
         path: path.resolve(__dirname, 'html/njs/'),
@@ -12,7 +12,6 @@ module.exports = {
         extensions: [ '.js', '.jsx' ]
     },
     plugins: [
-        //new BabiliPlugin(),
         new webpack.DefinePlugin({
           'process.env': {
             NODE_ENV: JSON.stringify('production')
@@ -20,12 +19,14 @@ module.exports = {
       }),
     ],
     module: {
-        loaders: [
+        rules: [
             {
                 test: /\.jsx$/,
-                loader: 'babel-loader',
-                query: {
-                    presets: ['react']
+                use: {
+                    loader: 'babel-loader',
+                    options: {
+                        presets: ['babel-preset-react']
+                    }
                 },
                 exclude: /node_modules/,
             }
