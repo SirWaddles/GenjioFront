@@ -19,7 +19,7 @@ class ImageIcon extends React.Component {
     render() {
         var extension = getExtension(this.props.image.name);
         var displayElement = false;
-        var imageSource = gbl_endpoint + "/i/" + this.props.image.name;
+        var imageSource = gbl_endpoint + "/i/" + this.props.image.internal_name;
         if (ImageExtensions.indexOf(extension) != -1) {
             displayElement = (
                 <Card.Content>
@@ -57,9 +57,9 @@ class ImageIcon extends React.Component {
                 {displayElement}
                 <Card.Content>
                     <Card.Header>
-                        <a href={imageSource}>{this.props.image.name}</a>
+                        <a href={imageSource}>{this.props.image.filename}</a>
                     </Card.Header>
-                    <p>{this.props.image.dateUploaded}</p>
+                    <p>{this.props.image.date_uploaded}</p>
                 </Card.Content>
                 <Card.Content extra>
                     <Button basic color='red' onClick={this.handleDeleteFile.bind(this)}>Delete</Button>

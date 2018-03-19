@@ -4,7 +4,7 @@ import UpdateImageListings from './imagelist';
 function GetLoginHeaders() {
     var loginObj = LoginStore.getState();
     return {
-        'Genjio-API-Key': loginObj.password,
+        'Genjio-API-Password': loginObj.password,
         'Genjio-API-Username': loginObj.username,
     };
 }
@@ -16,9 +16,9 @@ function TestLoginInformation() {
         method: 'GET',
         headers: GetLoginHeaders(),
     };
-    fetch(gbl_endpoint + "/login", options).then(response => response.json()).then(function(data) {
+    fetch(gbl_endpoint + "/app/login", options).then(response => response.json()).then(function(data) {
         if (data.success == true) {
-            LoginStore.updateState({loading: false, login: true, username: data.username});
+            LoginStore.updateState({loading: false, login: true});
             UpdateImageListings();
         } else {
             LoginStore.updateState({loading: false, login: false});
@@ -39,7 +39,7 @@ function ChangePassword(password) {
         body: JSON.stringify({newPassword: password}),
     };
 
-    fetch(gbl_endpoint + "/api/password", options).then(response => response.json()).then(function(data) {
+    fetch(gbl_endpoint + "/app/password", options).then(response => response.json()).then(function(data) {
         if (data.success == true) {
             LoginStore.updateState({'password': password});
         }
