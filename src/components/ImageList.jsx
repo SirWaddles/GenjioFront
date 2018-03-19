@@ -17,7 +17,7 @@ const IMAGES_PAGE_LENGTH = 16;
 
 class ImageIcon extends React.Component {
     render() {
-        var extension = getExtension(this.props.image.name);
+        var extension = getExtension(this.props.image.internal_name);
         var displayElement = false;
         var imageSource = gbl_endpoint + "/i/" + this.props.image.internal_name;
         if (ImageExtensions.indexOf(extension) != -1) {
