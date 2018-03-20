@@ -1,4 +1,5 @@
 import React from 'react';
+import moment from 'moment';
 import StoreContainer from './Container';
 import ImageStore from '../stores/imagelist';
 import LoginStore from '../stores/login';
@@ -59,7 +60,7 @@ class ImageIcon extends React.Component {
                     <Card.Header>
                         <a href={imageSource}>{this.props.image.filename}</a>
                     </Card.Header>
-                    <p>{this.props.image.date_uploaded}</p>
+                    <p>{moment(this.props.image.date_uploaded).format('MMMM Do YYYY')}</p>
                 </Card.Content>
                 <Card.Content extra>
                     <Button basic color='red' onClick={this.handleDeleteFile.bind(this)}>Delete</Button>
