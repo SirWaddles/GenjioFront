@@ -76,11 +76,11 @@ class ImageIcon extends React.Component {
 
 class ImageTableRow extends React.Component {
     render() {
-        var imageSource = gbl_endpoint + "/i/" + this.props.image.name;
+        var imageSource = gbl_endpoint + "/i/" + this.props.image.internal_name;
         return (
             <Table.Row>
-                <Table.Cell><a href={imageSource}>{this.props.image.name}</a></Table.Cell>
-                <Table.Cell>{this.props.image.dateUploaded}</Table.Cell>
+                <Table.Cell><a href={imageSource}>{this.props.image.internal_name}</a></Table.Cell>
+                <Table.Cell>{this.props.image.date_uploaded}</Table.Cell>
                 <Table.Cell><Button basic color='red' onClick={this.handleDeleteFile.bind(this)}>Delete</Button></Table.Cell>
             </Table.Row>
         );
@@ -93,7 +93,9 @@ class ImageTableRow extends React.Component {
 
 class ImageView extends React.Component {
     render() {
-        var images = this.props.images.slice(this.props.page * IMAGES_PAGE_LENGTH, (this.props.page + 1) * IMAGES_PAGE_LENGTH);
+        var images = this.props.images
+            .sort((a, b) => b.date_uploaded - a.date_uploaded)
+            .slice(this.props.page * IMAGES_PAGE_LENGTH, (this.props.page + 1) * IMAGES_PAGE_LENGTH);
         var pages = Math.ceil(this.props.images.length / IMAGES_PAGE_LENGTH);
         var displayView = false;
 
